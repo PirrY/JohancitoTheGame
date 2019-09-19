@@ -1,4 +1,21 @@
+<!DOCTYPE html>
 <html>
-  <body>
-  </body>
+<body>
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var yMax = 100;
+var xMax = 200;
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.moveTo(xMax/3,yMax);
+ctx.lineTo(xMax/3,yMax/2);
+ctx.stroke();
+ctx.font = "20px Times new roman";
+ctx.fillText("Johancito", 50, 50);
+</script>
+
+</body>
 </html>
