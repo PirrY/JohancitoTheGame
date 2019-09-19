@@ -8,14 +8,20 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 <script>
 var yMax = 100;
 var xMax = 200;
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
+var canvas = document.getElementById('my_canvas');
+var imgPath = 'img/ejemplo.jpg';
+var imgObj = new Image();
+imgObj.src = imgPath;
+var x = 0;
+var y = 0;
+imgObj.onload = function(){
+    context.drawImage(imgObj, x, y);
+}
+var ctx = canvas.getContext("2d");
 ctx.moveTo(xMax/3,yMax);
 ctx.lineTo(xMax/3,yMax/2);
 ctx.stroke();
 ctx.font = "20px Times new roman";
 ctx.fillText("Johancito", 50, 50);
-</script>
-
 </body>
 </html>
