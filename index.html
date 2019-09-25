@@ -7,37 +7,33 @@
 	<body>
 
 		<canvas id='canvas'></canvas><br />
-		<button onclick='moveLeft()'>Left</button>
-		<button onclick='moveRight()'>Right</button>
         <canvas tabindex='1'></canvas>
 		<script>
 		document.addEventListener('keydown', (event) => {
  		const keyName = event.key;
 
-		if (keyName === 'Control') {
-// do not alert when only Control key is pressed.
+		if (keyName === 'ArrowRight') {
+				left = false;
+				right = true;
+   		return;
+		} 
+        if (keyName === 'ArrowLeft') {
+		left = true;
+		right = false;
    		return;
 		}
-
-  		if (event.ctrlKey) {
-// Even though event.key is not 'Control' (e.g., 'a' is pressed),
-// event.ctrlKey may be true if Ctrl key is pressed at the same time.
-    	alert(`Combination of ctrlKey + ${keyName}`);
-  		} else {
-    	alert(`Key pressed ${keyName}`);
-  		}
 		}, false);
-
-		document.addEventListener('keyup', (event) => {
+        document.addEventListener('keyup', (event) => {
   		const keyName = event.key;
-
-// As the user releases the Ctrl key, the key is no longer active,
-// so event.ctrlKey is false.
-  		if (keyName === 'Control') {
-    	alert('Control key was released');
-  		}
+		if (keyName === 'ArrowRight') {
+    	left = false;
+		right = false;
+ 			}
+        if (keyName === 'ArrowLeft') {
+    	left = false;
+		right = false;
+ 			}
 		}, false);
-        
 			var canvasWidth = 500;
 			var canvasHeight = 350;
 
@@ -112,4 +108,3 @@
 		</script>
 	</body>
 </html>
-
