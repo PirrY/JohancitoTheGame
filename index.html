@@ -1,40 +1,115 @@
 <!DOCTYPE html>
+
 <html>
-<body>
+	<head>
+		<title>Jhojancito  movement</title>
+	</head>
+	<body>
 
-<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
+		<canvas id='canvas'></canvas><br />
+		<button onclick='moveLeft()'>Left</button>
+		<button onclick='moveRight()'>Right</button>
+        <canvas tabindex='1'></canvas>
+		<script>
+		document.addEventListener('keydown', (event) => {
+ 		const keyName = event.key;
 
-<script>
-var myGameArea = {
-  canvas : document.createElement("canvas"),
-  start : function() {
-    this.canvas.width = 480;
-    this.canvas.height = 270;
-    this.context = this.canvas.getContext("2d");
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    this.frameNo = 0;
-  },
-  clear : function() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-}
-#var yMax = 100;
-#var xMax = 200;
-#var canvas = document.getElementById('my_canvas');
-#var imgPath = 'img/ejemplo.jpg';
-#var imgObj = new Image();
-#imgObj.src = imgPath;
-#var x = 0;
-#var y = 0;
-#imgObj.onload = function(){
-   # context.drawImage(imgObj, x, y);
-#}
-#var ctx = canvas.getContext("2d");
-#ctx.moveTo(xMax/3,yMax);
-#ctx.lineTo(xMax/3,yMax/2);
-#ctx.stroke();
-#ctx.font = "20px Times new roman";
-#ctx.fillText("Johancito", 50, 50);
-</body>
+		if (keyName === 'Control') {
+// do not alert when only Control key is pressed.
+   		return;
+		}
+
+  		if (event.ctrlKey) {
+// Even though event.key is not 'Control' (e.g., 'a' is pressed),
+// event.ctrlKey may be true if Ctrl key is pressed at the same time.
+    	alert(`Combination of ctrlKey + ${keyName}`);
+  		} else {
+    	alert(`Key pressed ${keyName}`);
+  		}
+		}, false);
+
+		document.addEventListener('keyup', (event) => {
+  		const keyName = event.key;
+
+// As the user releases the Ctrl key, the key is no longer active,
+// so event.ctrlKey is false.
+  		if (keyName === 'Control') {
+    	alert('Control key was released');
+  		}
+		}, false);
+        
+			var canvasWidth = 500;
+			var canvasHeight = 350;
+
+			var spriteWidth = 864;
+			var spriteHeight = 280;
+
+			var rows = 2;
+			var cols = 8;
+
+			var trackRight = 0;
+			var trackLeft = 1;
+
+			var width = spriteWidth/cols;
+			var height = spriteHeight/rows;
+
+			var curFrame = 0;
+			var frameCount = 8;
+
+			var x=0;
+			var y=200;
+
+			var srcX;
+			var srcY;
+
+			var left = false;
+			var right = true;
+
+			var speed = 9;
+
+			var canvas = document.getElementById('canvas');
+			canvas.width = canvasWidth;
+			canvas.height = canvasHeight;
+
+			var ctx = canvas.getContext("2d");
+
+			var character = new Image();
+			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
+
+			function updateFrame(){
+				curFrame = ++curFrame % frameCount;
+				srcX = curFrame * width;
+				ctx.clearRect(x,y,width,height);
+
+				if(left && x>0){
+					srcY = trackLeft * height;
+					x-=speed;
+				}
+				if(right && x<canvasWidth-width){
+					srcY = trackRight * height;
+					x+=speed;
+				}
+			}
+
+			function draw(){
+				updateFrame();
+				ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+			}
+
+
+			function moveLeft(){
+				left = true;
+				right = false;
+			}
+
+			function moveRight(){
+				left = false;
+				right = true;
+			}
+
+			setInterval(draw,100);
+
+		</script>
+	</body>
 </html>
+
