@@ -61,21 +61,23 @@
 			var left = false;
 			var right = true;
 
-			var speed = 9;
+			var speed = 8;
 
 			var canvas = document.getElementById('canvas');
 			canvas.width = canvasWidth;
 			canvas.height = canvasHeight;
-
 			var ctx = canvas.getContext("2d");
-
-			var character = new Image();
+			ctx.fillStyle = "gray";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			
+			var character = new Image();			
 			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
 
 			function updateFrame(){
 				curFrame = ++curFrame % frameCount;
 				srcX = curFrame * width;
 				ctx.clearRect(x,y,width,height);
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 				if(left && x>0){
 					srcY = trackLeft * height;
@@ -103,7 +105,7 @@
 				right = true;
 			}
 
-			setInterval(draw,100);
+			setInterval(draw,140);
 
 		</script>
 	</body>
