@@ -7,7 +7,6 @@
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                background-color: black;
             }
             h1 {
                 margin: 0;
@@ -19,107 +18,103 @@
 	</head>
 	<body>
 
-		<canvas id='canvas'></canvas><br />
+		<canvas id='canvas' style='position:absolute; left:0px; top:0px;'></canvas><br />
         <canvas tabindex='1'></canvas>
 		<script>
 		document.addEventListener('keydown', (event) => {
  		const keyName = event.key;
-
 		if (keyName === 'ArrowRight') {
-				left = false;
 				right = true;
    		return;
-		} 
+		}
         if (keyName === 'ArrowLeft') {
 		left = true;
-		right = false;
    		return;
 		}
+    if (keyName === 'ArrowUp'){
+    up = true;
+      return;
+    }
+    if (keyName === 'Escape'){
+      down = false;
+      up=false;
+      left=false;
+      right=false;
+      alert("Pausa, oprime Esc para continuar...");
+      return;
+    }
 		}, false);
         document.addEventListener('keyup', (event) => {
   		const keyName = event.key;
-		if (keyName === 'ArrowRight') {
-    	left = false;
-		right = false;
+		    if (keyName === 'ArrowRight') {
+      		right = false;
  			}
-        if (keyName === 'ArrowLeft') {
-    	left = false;
-		right = false;
+      if (keyName === 'ArrowLeft') {
+    	     left = false;
  			}
+      if (keyName === 'ArrowUp') {
+          up = false;
+      }
 		}, false);
-			var canvasWidth = 500;
-			var canvasHeight = 350;
-
+			var canvasWidth = window.innerWidth;
+			var canvasHeight = window.innerHeight;
 			var spriteWidth = 864;
 			var spriteHeight = 280;
-
 			var rows = 2;
 			var cols = 8;
-
 			var trackRight = 0;
 			var trackLeft = 1;
-
 			var width = spriteWidth/cols;
 			var height = spriteHeight/rows;
-
 			var curFrame = 0;
 			var frameCount = 8;
-
 			var x=0;
-			var y=200;
-
+			var y=150;
 			var srcX;
 			var srcY;
-
 			var left = false;
-			var right = true;
-
-			var speed = 9;
-
+			var right = false;
+      var up = false;
+      var down = false;
+			var speed = 20;
 			var canvas = document.getElementById('canvas');
 			canvas.width = canvasWidth;
 			canvas.height = canvasHeight;
 			var ctx = canvas.getContext("2d");
 			ctx.fillStyle = "gray";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			
-			var character = new Image();			
-			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
 
+			var character = new Image();
+			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
 			function updateFrame(){
 				curFrame = ++curFrame % frameCount;
 				srcX = curFrame * width;
 				ctx.clearRect(x,y,width,height);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
+          srcY = trackRight * height;
 
-				if(left && x>0){
-					srcY = trackLeft * height;
-					x-=speed;
-				}
-				if(right && x<canvasWidth-width){
-					srcY = trackRight * height;
-					x+=speed;
-				}
+          if(left && x>0){
+  					srcY = trackLeft * height;
+  					x-=speed;
+  				}
+  				if(right && x<canvasWidth-(width)){
+  					srcY = trackRight * height;
+  					x+=speed;
+  				}
+          if(up && y>canvasHeight/2){
+  				  y-=speed;
+  				}
+          if(!up &&y<canvasHeight-(height)){
+  					y+=speed;
+          }
+
+
 			}
-
 			function draw(){
 				updateFrame();
-				ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+				ctx.drawImage(character,srcX,srcY,width,height,x,y,(width),(height));
 			}
-
-
-			function moveLeft(){
-				left = true;
-				right = false;
-			}
-
-			function moveRight(){
-				left = false;
-				right = true;
-			}
-
 			setInterval(draw,100);
-
 		</script>
 	</body>
 </html>
