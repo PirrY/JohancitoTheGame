@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html>
@@ -76,6 +77,7 @@
 			var right = false;
       var up = false;
       var down = false;
+      var salto  = false;
 			var speed = 20;
 			var canvas = document.getElementById('canvas');
 			canvas.width = canvasWidth;
@@ -83,7 +85,6 @@
 			var ctx = canvas.getContext("2d");
 			ctx.fillStyle = "gray";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 			var character = new Image();
 			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
 			function updateFrame(){
@@ -92,7 +93,6 @@
 				ctx.clearRect(x,y,width,height);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
           srcY = trackRight * height;
-
           if(left && x>0){
   					srcY = trackLeft * height;
   					x-=speed;
@@ -101,13 +101,13 @@
   					srcY = trackRight * height;
   					x+=speed;
   				}
-          if(up && y>canvasHeight/2){
-  				  y-=speed;
-  				}
           if(!up &&y<canvasHeight-(height)){
   					y+=speed;
           }
-
+          if(up){
+  				  y-=5*speed;
+            up = false;
+  				}
 
 			}
 			function draw(){
