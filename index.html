@@ -53,9 +53,7 @@
       if (keyName === 'ArrowLeft') {
     	     left = false;
  			}
-      if (keyName === 'ArrowUp') {
-          up = false;
-      }
+
 		}, false);
 			var canvasWidth = window.innerWidth;
 			var canvasHeight = window.innerHeight;
@@ -76,15 +74,28 @@
 			var left = false;
 			var right = false;
       var up = false;
-      var down = false;
-      var salto  = false;
-			var speed = 20;
+      var down = true;
+			var speed = 15;
+      var xmap = 0;
 			var canvas = document.getElementById('canvas');
 			canvas.width = canvasWidth;
 			canvas.height = canvasHeight;
 			var ctx = canvas.getContext("2d");
-			ctx.fillStyle = "gray";
+			ctx.fillStyle = "black";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
+      var image = new Image();
+      image.setAttribute('crossOrigin', 'anonymous');
+
+      image.onload = function(){
+        ctx.drawImage(image,
+        0, 0,   // Start at 70/20 pixels from the left and the top of the image (crop),
+        90, 100,   // "Get" a `50 * 50` (w * h) area from the source image (crop),
+        10, 10,     // Place the result at 0, 0 in the canvas,
+        canvasWidth -20, canvasHeight -30); // With as width / height: 100 * 100 (scale)
+        var _img = document.getElementById('base64');
+      }
+
+      image.src = 'vivel1.png';
 			var character = new Image();
 			character.src = "https://i1.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/02/character.png?w=864&ssl=1";
 			function updateFrame(){
@@ -92,22 +103,36 @@
 				srcX = curFrame * width;
 				ctx.clearRect(x,y,width,height);
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image,
+        0 + xmap, 0,   // Start at 70/20 pixels from the left and the top of the image (crop),
+        90, 100,   // "Get" a `50 * 50` (w * h) area from the source image (crop),
+        10, 40,     // Place the result at 0, 0 in the canvas,
+        canvasWidth -20, canvasHeight -30);
           srcY = trackRight * height;
           if(left && x>0){
   					srcY = trackLeft * height;
   					x-=speed;
+            xmap-=speed/5;
   				}
-  				if(right && x<canvasWidth-(width)){
+  				if(right && xmap<4000){
   					srcY = trackRight * height;
-  					x+=speed;
+  					if (x < canvasWidth - width ){
+              x+=speed;
+            }
+            xmap+=speed/5;
   				}
-          if(!up &&y<canvasHeight-(height)){
+          if (right && x == canvasWidth-(width)){
+  					srcY = trackRight * height;
+            xmap+=speed/5;
+  				}
+          if(down &&y<canvasHeight-(height) - 75){
   					y+=speed;
           }
-          if(up){
+          if(up && y >= canvasHeight-height - 75){
   				  y-=5*speed;
-            up = false;
+
   				}
+          up = false;
 
 			}
 			function draw(){
@@ -115,6 +140,8 @@
 				ctx.drawImage(character,srcX,srcY,width,height,x,y,(width),(height));
 			}
 			setInterval(draw,100);
+
+
 		</script>
 	</body>
 </html>
